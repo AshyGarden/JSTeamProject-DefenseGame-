@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapleDefenseGame</title>
+
+    <!-- custom js -->
+    <!-- <script src="./scripts/js/"></script> -->
+    <!-- custom css -->
+    <link rel="stylesheet" href="./scripts/css/main-defense.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>버섯 디펜스 게임</header>
+
+        <section class="main">
+            <div class="upper-ui"><!-- 상단UI -->
+                <div class="stage">
+                    <h2>stage <em id="stageNum">1</em> </h2>
+                </div>
+                <div class="enemyGauge"><!-- 적 게이지 영역 -->
+                    <h3 >Left Enemys</h3> 
+                    <div class="gauge togo"></div><!-- 처리한 적 -->
+                    <div class="gauge leftover"></div><!-- 남은 적 -->
+                </div>
+                <div class="timer">
+                    <h3 id="time">Time</h3>
+                    <h3 class="playtime">00</h3>
+                </div>
+                <div class="totalScore">
+                    <h3 id="scoreText">Score</h3>
+                    <h3 class="scores">0000</h3>
+                </div>
+            </div>
+
+            <div class="game-zone">
+                <div class="lane lane1"></div>
+                <div class="lane lane2"></div>
+                <div class="lane lane3"></div>
+                <div class="lane lane4"></div>
+            </div>
+            <!--  <img src="./img/Mushy.gif" alt="mushy"> -->
+
+
+        </section>
+        <aside>
+            <audio src=""></audio>
+        </aside>
+    </div>
+</body>
+
+</html>

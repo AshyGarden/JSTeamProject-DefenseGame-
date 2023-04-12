@@ -1,0 +1,168 @@
+/* reset */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+@font-face{
+    font-family: 'Maplestory';
+    src: url(../../source/Fonts/MaplestoryLight.ttf);
+}
+
+/* layout */
+.wrapper {
+    font-size: 18px;
+    font-family: 'Maplestory',sans-serif;
+    background: url('../../img/bg/maplestoryBG.jpg') no-repeat ;
+    height: 100vh;
+    position: relative; /* pos 줄 것을 대비해서 */
+}
+
+/* header */
+header{
+    text-align: center;
+    padding-top: 20px;
+    font-weight: bold;
+    color: orange;
+    font-size: 45px;
+}
+
+/* main */
+section.main {
+    /* Main Game Scene */
+    width: 80%;
+    height: 80vh;
+    border-radius: 15px;
+    box-shadow: 0 0 5px, rgba(0, 0, 0, 0.7);
+
+    /*   */
+    background: url(../../img/bg/main-bg.png) no-repeat;
+    background-size: 100vw 100vh;
+
+    /* 왼쪽 상단 꼭지점 50% */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    /*  다시 중앙배치 */
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+}
+
+/* upper-ui(위쪽 메뉴) */
+section.main .upper-ui{
+    display: flex;
+    width: 100%;
+    height: 20%;
+    background: rgba(255, 165, 0, 0.3);
+}
+
+/* stage 문구 */
+section.main .upper-ui .stage{
+    /* line-height: 80px; */
+    margin: -30px 30px;
+    font-size: 50px; 
+}
+
+/* 남은 적 게이지 */
+section.main .upper-ui .enemyGauge{
+    position: relative;
+    width: 40%;
+
+    /* padding-top: 20px; */
+    background: rgba(128, 128, 128,0.3);
+}
+
+section.main .upper-ui .enemyGauge{
+    margin-top: -20px;
+    text-align: center;
+    font-size: 30px;
+}
+
+section.main .upper-ui .enemyGauge .gauge{
+    position: absolute;
+    top: 50%;
+    
+    margin: 0 20px;
+    
+    width: 90%;
+    height: 40%;
+}
+
+section.main .upper-ui .enemyGauge .togo{
+    
+    z-index: 1000;
+    width: 80%;
+    left: 20%;
+    
+    background: rgba(255, 0, 128, 0.8);
+    border-radius: 10px;
+    border: 3px solid black;
+}
+section.main .upper-ui .enemyGauge .leftover{
+    
+    width: 80%;
+   /*  left: 20%; */
+
+    background: rgba(0, 255, 128, 0.8);
+    border-radius: 10px;
+    border: 3px solid black;
+}
+
+
+
+section.main .upper-ui .timer{
+    position: relative;
+    width: 15%;
+}
+section.main .upper-ui .timer h3{
+    text-align: center;
+}
+
+/* section.main .upper-ui h3{
+    float: left;
+    margin: 10px 20px;
+    font-size: 30px;
+}
+ */
+
+
+
+/* game-zone */
+section.main .game-zone{
+    position: absolute;
+    top: 20%;
+
+    width: 100%;
+    height: 80%;
+    /* background: rgba(0, 128, 0, 0.3); */
+}
+
+/* lane */
+section.main .game-zone .lane{
+    position: absolute;
+    height: 25%;
+}
+
+section.main .game-zone .lane1{
+    width: 100%;
+    background: rgba(0, 128, 0, 0.3);
+}
+
+section.main .game-zone .lane2{
+    top: 25%;
+    width: 100%;
+    background: rgba(0, 64, 128, 0.4);
+}
+section.main .game-zone .lane3{
+    top: 50%;
+    width: 100%;
+    background: rgba(0, 128, 0, 0.3);
+}
+section.main .game-zone .lane4{
+    top: 75%;
+    width: 100%;
+    background: rgba(0, 64, 128, 0.4);
+}
+
+
