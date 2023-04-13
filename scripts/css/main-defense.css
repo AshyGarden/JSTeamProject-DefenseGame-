@@ -41,6 +41,7 @@ button {
 
 .wrapper button:hover{
     background: rgb(255, 165, 0);
+    width: 15%;
     font-size: 30px;
 }
 
@@ -132,7 +133,7 @@ section.main .upper-ui .enemyGauge .togo {
 
     background: rgba(0, 255, 128, 0.8);
     border-radius: 10px;
-    border: 3px solid black;
+    border: 3px solid white;
 }
 
 section.main .upper-ui .enemyGauge .leftover {
@@ -141,7 +142,7 @@ section.main .upper-ui .enemyGauge .leftover {
     width: 80%;
     background: rgba(255, 0, 128, 0.8);
     border-radius: 10px;
-    border: 3px solid black;
+    border: 3px solid white;
 }
 
 /* timer */
@@ -180,29 +181,49 @@ section.main .upper-ui .totalScore h3 {
     text-align: center;
 }
 
-section.main .upper-ui .summon {
+section.main .upper-ui .summon-list {
+    display: flex;
     position: relative;
-    width: 40%;
+    width: 45%;
     height: 100%;
-    left: 50%;
+    left: 40%;
+    margin: 0 1%;
     overflow: hidden;
+    box-sizing: border-box;
+  /*   border: 1px solid black; */
 }
 
-section.main .upper-ui .summon .miner {
-    position: absolute;
-    border: 1px solid black;
+section.main .upper-ui .summon-list .miner {
+    display: flex;
+    width: 45%;
+    height: 100%;
     transform: translateY(-2.7%);
     /*  height: 95%; */
+    /* border: 3px solid white;   */
 }
 
-section.main .upper-ui .summon .attacker {
+section.main .upper-ui .summon-list .miner .minor-txt{
     position: relative;
-    transform: scale(0.8) translateY(-13%);
+    top: 10%;
+    border: 1px solid white;  
+}
+
+section.main .upper-ui .summon-list .miner-img{
+   
+    border: 1px solid white;  
+}
+
+section.main .upper-ui .summon-list .attacker {
+    display: flex;
+    width: 45%;
+    height: 100%;
     /*  height: 90%; */
-    border: 1px solid black;
+    border: 1px solid white;
     left: 40%;
 }
-
+section.main .upper-ui .summon-list .attacker .attacker-img{
+transform: scale(0.8) translateY(-13%);
+}
 /* game-zone */
 section.main .game-zone {
     position: absolute;
@@ -214,27 +235,49 @@ section.main .game-zone {
 
 /* lane */
 section.main .game-zone .lane {
+    height: 25%;
+}
+section.main .game-zone .lane .pos{
+    display: flex;
+    box-sizing: border-box;   
+    border: 1px solid white;
+}
+
+/* summon pos */
+section.main .game-zone .lane .left{ 
     position: absolute;
+    left: 60%;
+    width: 10%;
+    height: 25%;
+}
+section.main .game-zone .lane .middle{
+    position: absolute;
+    left: 70%;
+    width: 10%;
+    height: 25%;
+}
+section.main .game-zone .lane .right{
+    position: absolute;
+    left: 80%;
+    width: 10%;
     height: 25%;
 }
 
+/* lane Position */
 section.main .game-zone .lane1 {
     width: 100%;
     background: rgba(0, 128, 0, 0.3);
 }
-
 section.main .game-zone .lane2 {
     top: 25%;
     width: 100%;
     background: rgba(0, 64, 128, 0.4);
 }
-
 section.main .game-zone .lane3 {
     top: 50%;
     width: 100%;
     background: rgba(0, 128, 0, 0.3);
 }
-
 section.main .game-zone .lane4 {
     top: 75%;
     width: 100%;
