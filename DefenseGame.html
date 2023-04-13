@@ -7,19 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MapleDefenseGame</title>
 
-    <!-- custom js -->
-    <!-- <script src="./scripts/js/"></script> -->
-
+    
     <!-- linear icons -->
     <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
     <!-- fontawesome css: https://fontawesome.com -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
+    
     <!-- 파비콘 넣기 -->
     <!-- <link rel="icon" href="./siteicon.ico"> -->
     <link rel="icon" href="./source/fabicon/StrawberryFabi.ico">
     <!-- custom css -->
     <link rel="stylesheet" href="./scripts/css/main-defense.css">
+   
+    <!-- custom js -->
+    <script src="./scripts/js/gameMng.js" defer></script>
 </head>
 
 <body>
@@ -40,11 +41,11 @@
                     <div class="gauge togo"></div><!-- 처리한 적 -->
                     <div class="gauge leftover"></div><!-- 남은 적 -->
                 </div>
-                <div class="timer">
+                <div class="timer"><!-- 게임 진행 시간 -->
                     <h3 id="time">Time</h3>
                     <h3 class="playtime">000</h3>
                 </div>
-                <div class="money">
+                <div class="money"><!--  -->
                     <h3 id="meso">Meso</h3>
                     <h3 class="totlaMeso">000</h3>
                 </div>
