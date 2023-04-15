@@ -72,7 +72,6 @@ button {
 }
 
 
-
 /* header */
 header {
     text-align: center;
@@ -107,7 +106,7 @@ section.main {
 
     /*  다시 중앙배치 */
     transform: translate(-50%, -50%);
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 /* upper-ui(위쪽 메뉴) */
@@ -308,7 +307,7 @@ section.main .game-zone .lane .right:hover{
     border: 3px dashed white;
 }
 
-section.main .game-zone img{
+section.main .game-zone .hero{
     position: absolute;
     display: none;
 }
