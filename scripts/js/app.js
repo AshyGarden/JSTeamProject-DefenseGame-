@@ -1,27 +1,37 @@
-const $gameZone = document.querySelector('.game-zone');
+const $gameZone = document.querySelector('.main .game-zone');
 let money = 0; //기본 돈
 const plMon = setInterval(() => { //시간지날때마다 돈 들어오기
     money += 50;
 }, 1000);
 
-let i = 1; //소환 개수
-let death = 10; // 죽은 수 체크
+let enemyCount = 1; //소환 개수
+let death = 0; // 죽은 수 체크
 
+let kk = -20;
+let poXL1 = [];
+let poXL2 = [];
+let poXL3 = [];
+let poXL4 = [];
 
-let poX = []; //몬스터 위치
-let aa = -20; //몬스터 생길때마다 더 뒤로 생성
-for (let i = 0; i < 10; i++) { //값 넣어주기
-    poX[i] = aa;
-    aa -= 47;
-}
-
+//라인 마다 HP설정해주면서 몇마린지 확인
 let HP1 = [];
 let HP2 = [];
 let HP3 = [];
 let HP4 = [];
 
-
+//캐릭 고를 때 사용할
 let want = 1;
+
+//패배 시
+function end() {
+    alert('패배!!');
+}
+
+//승리 시
+function win() {
+    alert('승리!!');
+}
+
 
 
 //몬스터 생성
@@ -32,7 +42,7 @@ const newMon = setInterval(() => {
     $gameZone.appendChild($monImg);
     $monImg.src = './img/enemys/HornMushy_walk.gif';
     $monImg.style.position = 'absolute';
-    $monImg.classList.add(`monster`, `ln${num}`, `new${i}`);
+    $monImg.classList.add(`monster`, `ln${num}`, `new${enemyCount}`);
     $monImg.style.width = '20%';
     $monImg.style.height = '25%';
     $monImg.style.left = '-20%';
@@ -42,100 +52,38 @@ const newMon = setInterval(() => {
     if (num === 1) {
         poY = 5;
         HP1.push(10);
+        poXL1.push(kk);
+        kk -= 47;
     } else if (num === 2) {
         poY = 30;
         HP2.push(10);
+        poXL2.push(kk);
+        kk -= 47;
     } else if (num === 3) {
         poY = 55;
         HP3.push(10);
+        poXL3.push(kk);
+        kk -= 47;
     } else if (num === 4) {
         poY = 80;
         HP4.push(10);
+        poXL4.push(kk);
+        kk -= 47;
     }
-    $monImg.style.left = `${poX}%`;
+    $monImg.style.left = `${kk+47}%`;
     $monImg.style.top = `${poY}%`;
-    if (i === 10) { // 소환 정지
+    
+    
+    
+    if (enemyCount === 10) { // 소환 정지
         clearInterval(newMon);
     }
-    i++;
+    enemyCount++;
 }, 500);
 
+//afda 초 움직임부터 모든게 작동 시작
 const afda = setTimeout(() => {
-        const $monster = [...document.querySelectorAll('.monster')];
-        
-        const tlrks = setInterval(() => {
-            for (let h = 0; h < 10; h++) {
-
-                    $monster[h].style.left = `${poX[h]+1}%`;
-                    poX[h] += 1;
-                    for (let k = 0; k < HP1.length; k++) {
-                        if (HP1[k] < 1) { //몬스터 죽기
-                            HP1[k] = 1000000;
-                            console.log(h);
-                            $monster[h].style.left = $monster[h].style.left;
-                            $monster[h].src = `./img/enemys/HornMushy_die.gif`;
-                            const deathAni = setTimeout(() => {
-                                poX[h] = -10000;
-                                $monster[h].style.left = `-800%`;
-                                clearTimeout(deathAni);
-                            }, 1000);
-                            death--;
-                        }
-                    }
-                    for (let k = 0; k < HP2.length; k++) {
-                        if (HP2[k] < 1) { //몬스터 죽기
-                            HP2[k] = 1000000;
-                            console.log(h);
-                            $monster[h].style.left = $monster[h].style.left;
-                            $monster[h].src = `./img/enemys/HornMushy_die.gif`;
-                            const deathAni = setTimeout(() => {
-                                poX[h] = -10000;
-                                clearTimeout(deathAni);
-                            }, 1000);
-                            death--;
-                        }
-                    }
-                    for (let k = 0; k < HP3.length; k++) {
-                        if (HP3[k] < 1) { //몬스터 죽기
-                            HP3[k] = 100000;
-                            console.log(h);
-                            $monster[h].style.left = $monster[h].style.left;
-                            $monster[h].src = `./img/enemys/HornMushy_die.gif`;
-                            const deathAni = setTimeout(() => {
-                                poX[h] = -10000;
-                                clearTimeout(deathAni);
-                            }, 1000);
-                            death--;
-                        }
-                    }
-                    for (let k = 0; k < HP4.length; k++) {
-                        if (HP4[k] < 1) { //몬스터 죽기
-                            HP4[k] = 100000;
-                            console.log(h);
-                            $monster[h].style.left = $monster[h].style.left;
-                            $monster[h].src = `./img/enemys/HornMushy_die.gif`;
-                            const deathAni = setTimeout(() => {
-                                poX[h] = -10000;
-                                clearTimeout(deathAni);
-                            }, 1000);
-                            death--;
-                        }
-                    }
-                    // 게임 end
-                    if (poX[h] > 84) {
-                        clearInterval(tlrks);
-                        alert('패배!!');
-                    } else if (death === 0) {
-                        // clearInterval(tlrks);
-                        // alert('승리!!');
-                    }
-                }
-            },
-            380);
-
-        clearTimeout(afda); //10초뒤에 시작하고 한번만 돌게 설정.
-    },
-    10000);
+    const $monster = [...document.querySelectorAll('.monster')];
 
 const $he1 = document.querySelector('.lane1 .left img');
 const $he2 = document.querySelector('.lane1 .middle img');
@@ -149,463 +97,6 @@ const $he9 = document.querySelector('.lane3 .right img');
 const $he10 = document.querySelector('.lane4 .left img');
 const $he11 = document.querySelector('.lane4 .middle img');
 const $he12 = document.querySelector('.lane4 .right img');
-
-// 공격
-
-const he1At = setInterval(() => {
-    const $poX1 = [...document.querySelectorAll('.ln1')];
-    let qkftk1 = 60;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x1`, `Y1`);
-    $att.style.position = 'absolute';
-    $att.style.left = `60%`;
-    $att.style.top = `15%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he1.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) { //공격 마지막 거리 5%
-            clearInterval(qkftk11);
-            $att.remove();
-        } else { //몬스터 만나면 사라지기
-            for (let z = 0; z < $poX1.length; z++) {
-                if ($poX1[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP1[z]--;
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he2At = setInterval(() => {
-    let qkftk1 = 71;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x2`, `Y1`);
-    $att.style.position = 'absolute';
-    $att.style.left = `71%`;
-    $att.style.top = `15%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he2.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX1 = [...document.querySelectorAll('.ln1')];
-            for (let z = 0; z < $poX1.length; z++) {
-                if ($poX1[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP1[z]--;
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he3At = setInterval(() => {
-    let qkftk1 = 82;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x3`, `Y1`);
-    $att.style.position = 'absolute';
-    $att.style.left = `82%`;
-    $att.style.top = `15%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he3.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX1 = [...document.querySelectorAll('.ln1')];
-            for (let z = 0; z < $poX1.length; z++) {
-                if ($poX1[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP1[z]--;
-                    // console.log(HP1);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he4At = setInterval(() => {
-    let qkftk1 = 60;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x1`, `Y2`);
-    $att.style.position = 'absolute';
-    $att.style.left = `60%`;
-    $att.style.top = `40%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he4.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX2 = [...document.querySelectorAll('.ln2')];
-            for (let z = 0; z < $poX2.length; z++) {
-                if ($poX2[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP2[z]--;
-                    // console.log(HP2);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he5At = setInterval(() => {
-    let qkftk1 = 71;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x2`, `Y3`);
-    $att.style.position = 'absolute';
-    $att.style.left = `71%`;
-    $att.style.top = `40%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he5.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX2 = [...document.querySelectorAll('.ln2')];
-            for (let z = 0; z < $poX2.length; z++) {
-                if ($poX2[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP2[z]--;
-                    // console.log(HP2);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he6At = setInterval(() => {
-    let qkftk1 = 82;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x3`, `Y3`);
-    $att.style.position = 'absolute';
-    $att.style.left = `82%`;
-    $att.style.top = `40%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he6.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX2 = [...document.querySelectorAll('.ln2')];
-            for (let z = 0; z < $poX2.length; z++) {
-                if ($poX2[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP2[z]--;
-                    // console.log(HP2);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he7At = setInterval(() => {
-    let qkftk1 = 60;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x1`, `Y2`);
-    $att.style.position = 'absolute';
-    $att.style.left = `60%`;
-    $att.style.top = `65%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he7.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX3 = [...document.querySelectorAll('.ln3')];
-            for (let z = 0; z < $poX3.length; z++) {
-                if ($poX3[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP3[z]--;
-                    // console.log(HP3);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he8At = setInterval(() => {
-    let qkftk1 = 71;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x2`, `Y3`);
-    $att.style.position = 'absolute';
-    $att.style.left = `71%`;
-    $att.style.top = `65%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he8.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX3 = [...document.querySelectorAll('.ln3')];
-            for (let z = 0; z < $poX3.length; z++) {
-                if ($poX3[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP3[z]--;
-                    // console.log(HP3);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he9At = setInterval(() => {
-    let qkftk1 = 82;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x3`, `Y3`);
-    $att.style.position = 'absolute';
-    $att.style.left = `82%`;
-    $att.style.top = `65%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he9.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX3 = [...document.querySelectorAll('.ln3')];
-            for (let z = 0; z < $poX3.length; z++) {
-                if ($poX3[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP3[z]--;
-                    // console.log(HP3);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he10At = setInterval(() => {
-    let qkftk1 = 60;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x1`, `Y2`);
-    $att.style.position = 'absolute';
-    $att.style.left = `60%`;
-    $att.style.top = `90%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he10.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX4 = [...document.querySelectorAll('.ln4')];
-            for (let z = 0; z < $poX4.length; z++) {
-                if ($poX4[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP4[z]--;
-                    // console.log(HP4);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he11At = setInterval(() => {
-    let qkftk1 = 71;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x2`, `Y3`);
-    $att.style.position = 'absolute';
-    $att.style.left = `71%`;
-    $att.style.top = `90%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he11.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX4 = [...document.querySelectorAll('.ln4')];
-            for (let z = 0; z < $poX4.length; z++) {
-                if ($poX4[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP4[z]--;
-                    // console.log(HP4);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
-const he12At = setInterval(() => {
-    let qkftk1 = 82;
-    const $att = document.createElement('div');
-    $gameZone.appendChild($att);
-    $att.classList.add('attack', `x3`, `Y3`);
-    $att.style.position = 'absolute';
-    $att.style.left = `82%`;
-    $att.style.top = `90%`;
-    $att.style.width = '3%';
-    $att.style.height = '1%';
-    $att.style.border = '2px solid white';
-    $att.style.borderRadius = '5px';
-    $att.style.background = 'aqua';
-    $att.style.display = 'none';
-    if ($he12.style.display === 'block') {
-        $att.style.display = 'block';
-    }
-
-    const qkftk11 = setInterval(() => {
-        $att.style.left = `${qkftk1-1}%`;
-        qkftk1 -= 1;
-        if (qkftk1 === 5) {
-            clearInterval(qkftk11);
-            $att.remove();
-        } else {
-            const $poX4 = [...document.querySelectorAll('.ln4')];
-            for (let z = 0; z < $poX4.length; z++) {
-                if ($poX4[z].style.left > $att.style.left) {
-                    clearInterval(qkftk11);
-                    $att.remove();
-                    HP4[z]--;
-                    // console.log(HP4);
-                }
-            }
-        }
-    }, 7);
-}, 1000)
-
 
 const $lane1LeA = document.querySelector('.game-zone .lane1 .left')
 const $lane1MiA = document.querySelector('.game-zone .lane1 .middle')
@@ -633,6 +124,135 @@ const $lane4LeM = document.querySelector('.game-zone .lane4 .left .game-miner')
 const $lane4MiM = document.querySelector('.game-zone .lane4 .middle .game-miner')
 const $lane4RiM = document.querySelector('.game-zone .lane4 .right .game-miner')
 
+const $lane1 = document.querySelectorAll('.ln1')
+const $lane2 = document.querySelectorAll('.ln2')
+const $lane3 = document.querySelectorAll('.ln3')
+const $lane4 = document.querySelectorAll('.ln4')
+
+//몬스터 2분뒤부터 나오기 시작
+const start = setTimeout(() => {
+
+//계속 오른쪽으로 움직이게
+const tlrks1 = setInterval(() => {
+    for (let h = 0; h < poXL1.length; h++) {
+        $lane1[h].style.left = `${poXL1[h]+1}%`;
+        poXL1[h] += 1;
+
+        if(poXL1[h] > 84) {
+            clearInterval(tlrks1);
+            end();
+        } else if($he1.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL1.length; enemyCount++) {
+                if(poXL1[enemyCount]+20 > 68) {
+                    poXL1[enemyCount] = poXL1[enemyCount]-1;
+                }
+            }
+        } else if($he2.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL1.length; enemyCount++) {
+                if(poXL1[enemyCount]+20 > 78) {
+                    poXL1[enemyCount] = poXL1[enemyCount]-1;
+                }
+            }
+        } else if($he3.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL1.length; enemyCount++) {
+                if(poXL1[enemyCount]+20 > 88) {
+                    poXL1[enemyCount] = poXL1[enemyCount]-1;
+                }
+            }
+        }
+    }
+}, 380);
+const tlrks2 = setInterval(() => {
+    for (let h = 0; h < poXL2.length; h++) {
+        $lane2[h].style.left = `${poXL2[h]+1}%`;
+        poXL2[h] += 1;
+
+        if(poXL2[h] > 84) {
+            clearInterval(tlrks1);
+            end();
+        }  else if($he4.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL2.length; enemyCount++) {
+                if(poXL2[enemyCount]+20 > 68) {
+                    poXL2[enemyCount] = poXL2[enemyCount]-1;
+                }
+            }
+        } else if($he5.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL2.length; enemyCount++) {
+                if(poXL2[enemyCount]+20 > 78) {
+                    poXL2[enemyCount] = poXL2[enemyCount]-1;
+                }
+            }
+        } else if($he6.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL2.length; enemyCount++) {
+                if(poXL2[enemyCount]+20 > 88) {
+                    poXL2[enemyCount] = poXL2[enemyCount]-1;
+                }
+            }
+        }
+    }
+}, 380);
+const tlrks3 = setInterval(() => {
+    for (let h = 0; h < poXL3.length; h++) {
+        $lane3[h].style.left = `${poXL3[h]+1}%`;
+        poXL3[h] += 1;
+
+        if(poXL3[h] > 84) {
+            clearInterval(tlrks1);
+            end();
+        } else if($he7.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL3.length; enemyCount++) {
+                if(poXL3[enemyCount]+20 > 68) {
+                    poXL3[enemyCount] = poXL3[enemyCount]-1;
+                }
+            }
+        } else if($he8.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL3.length; enemyCount++) {
+                if(poXL3[enemyCount]+20 > 78) {
+                    poXL3[enemyCount] = poXL3[enemyCount]-1;
+                }
+            }
+        } else if($he9.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL3.length; enemyCount++) {
+                if(poXL3[enemyCount]+20 > 88) {
+                    poXL3[enemyCount] = poXL3[enemyCount]-1;
+                }
+            }
+        }
+    }
+}, 380);
+const tlrks4 = setInterval(() => {
+    for (let h = 0; h < poXL4.length; h++) {
+        $lane4[h].style.left = `${poXL4[h]+1}%`;
+        poXL4[h] += 1;
+
+        if(poXL4[h] > 84) {
+            clearInterval(tlrks1);
+            end();
+        } else if($he10.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL4.length; enemyCount++) {
+                if(poXL4[enemyCount]+20 > 68) {
+                    poXL4[enemyCount] = poXL4[enemyCount]-1;
+                }
+            }
+        } else if($he11.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL4.length; enemyCount++) {
+                if(poXL4[enemyCount]+20 > 78) {
+                    poXL4[enemyCount] = poXL4[enemyCount]-1;
+                }
+            }
+        } else if($he12.style.display === 'block') {
+            for(let enemyCount=0; enemyCount<poXL4.length; enemyCount++) {
+                if(poXL4[enemyCount]+20 > 88) {
+                    poXL4[enemyCount] = poXL4[enemyCount]-1;
+                }
+            }
+        }
+    }
+}, 380);
+clearTimeout(start);
+}, 120000);
+
+//무엇을 소환할지 누르기
 const $want2 = document.querySelector('.summon-list .miner .miner-img');
 const $want3 = document.querySelector('.summon-list .attacker .attacker-img');
 document.addEventListener('click', e => {
@@ -649,46 +269,648 @@ document.addEventListener('click', e => {
             $ele.style.zIndex = '3';
         }
     }
-})
+});
 
+//소환 작동
 document.addEventListener('click', e => {
     if (want === 3) {
         if (e.target === $lane1LeA) {
             $he1.style.display = 'block';
             want = 1;
+
+            // 공격
+            const he1At = setInterval(() => {
+                let qkftk1 = 60;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x1`, `Y1`);
+                $att.style.position = 'absolute';
+                $att.style.left = `60%`;
+                $att.style.top = `15%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        for (let z = 0; z < $lane1.length; z++) {
+                            if (poXL1[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP1[z]--;
+                                //죽은놈 뒤로 보내기기
+                                if(HP1[z] < 1) {
+                                    HP1[z] = 1000000;
+                                    $lane1[z].style.left = $lane1[z].style.left;
+                                    $lane1[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $lane1[z].style.left = `-800%`;
+                                        poXL1[z] = -10000;
+                                        
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         } else if (e.target === $lane1MiA) {
             $he2.style.display = 'block';
             want = 1;
+
+            const he2At = setInterval(() => {
+                let qkftk1 = 71;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x2`, `Y1`);
+                $att.style.position = 'absolute';
+                $att.style.left = `71%`;
+                $att.style.top = `15%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX1 = [...document.querySelectorAll('.ln1')];
+                        for (let z = 0; z < $poX1.length; z++) {
+                            if (poXL1[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP1[z]--;
+
+                                if(HP1[z] < 1) {
+                                    HP1[z] = 1000000;
+                                    $poX1[z].style.left = $poX1[z].style.left;
+                                    $poX1[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX1[z].style.left = `-800%`;
+                                        poXL1[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         } else if (e.target === $lane1RiA) {
             $he3.style.display = 'block';
             want = 1;
+
+            const he3At = setInterval(() => {
+                let qkftk1 = 82;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x3`, `Y1`);
+                $att.style.position = 'absolute';
+                $att.style.left = `82%`;
+                $att.style.top = `15%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX1 = [...document.querySelectorAll('.ln1')];
+                        for (let z = 0; z < $poX1.length; z++) {
+                            if (poXL1[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP1[z]--;
+
+                                if(HP1[z] < 1) {
+                                    HP1[z] = 1000000;
+                                    $poX1[z].style.left = $poX1[z].style.left;
+                                    $poX1[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX1[z].style.left = `-800%`;
+                                        poXL1[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         } else if (e.target === $lane2LeA) {
             $he4.style.display = 'block';
             want = 1;
+
+            const he4At = setInterval(() => {
+                let qkftk1 = 60;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x1`, `Y2`);
+                $att.style.position = 'absolute';
+                $att.style.left = `60%`;
+                $att.style.top = `40%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX2 = [...document.querySelectorAll('.ln2')];
+                        for (let z = 0; z < $poX2.length; z++) {
+                            if (poXL2[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP2[z]--;
+
+                                if(HP2[z] < 1) {
+                                    HP2[z] = 1000000;
+                                    $poX2[z].style.left = $poX2[z].style.left;
+                                    $poX2[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX2[z].style.left = `-800%`;
+                                        poXL2[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         } else if (e.target === $lane2MiA) {
             $he5.style.display = 'block';
             want = 1;
+
+            const he5At = setInterval(() => {
+                let qkftk1 = 71;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x2`, `Y3`);
+                $att.style.position = 'absolute';
+                $att.style.left = `71%`;
+                $att.style.top = `40%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX2 = [...document.querySelectorAll('.ln2')];
+                        for (let z = 0; z < $poX2.length; z++) {
+                            if (poXL2[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP2[z]--;
+
+                                if(HP2[z] < 1) {
+                                    HP2[z] = 1000000;
+                                    $poX2[z].style.left = $poX2[z].style.left;
+                                    $poX2[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX2[z].style.left = `-800%`;
+                                        poXL2[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         } else if (e.target === $lane2RiA) {
             $he6.style.display = 'block';
             want = 1;
+
+            const he6At = setInterval(() => {
+                let qkftk1 = 82;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x3`, `Y3`);
+                $att.style.position = 'absolute';
+                $att.style.left = `82%`;
+                $att.style.top = `40%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX2 = [...document.querySelectorAll('.ln2')];
+                        for (let z = 0; z < $poX2.length; z++) {
+                            if (poXL2[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP2[z]--;
+
+                                if(HP2[z] < 1) {
+                                    HP2[z] = 1000000;
+                                    $poX2[z].style.left = $poX2[z].style.left;
+                                    $poX2[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX2[z].style.left = `-800%`;
+                                        poXL2[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         } else if (e.target === $lane3LeA) {
             $he7.style.display = 'block';
             want = 1;
+
+            const he7At = setInterval(() => {
+                let qkftk1 = 60;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x1`, `Y2`);
+                $att.style.position = 'absolute';
+                $att.style.left = `60%`;
+                $att.style.top = `65%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX3 = [...document.querySelectorAll('.ln3')];
+                        for (let z = 0; z < $poX3.length; z++) {
+                            if (poXL3[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP3[z]--;
+
+                                if(HP3[z] < 1) {
+                                    HP3[z] = 1000000;
+                                    $poX3[z].style.left = $poX3[z].style.left;
+                                    $poX3[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX3[z].style.left = `-800%`;
+                                        poXL3[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
+            
         } else if (e.target === $lane3MiA) {
             $he8.style.display = 'block';
             want = 1;
+
+            const he8At = setInterval(() => {
+                let qkftk1 = 71;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x2`, `Y3`);
+                $att.style.position = 'absolute';
+                $att.style.left = `71%`;
+                $att.style.top = `65%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX3 = [...document.querySelectorAll('.ln3')];
+                        for (let z = 0; z < $poX3.length; z++) {
+                            if (poXL3[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP3[z]--;
+
+                                if(HP3[z] < 1) {
+                                    HP3[z] = 1000000;
+                                    $poX3[z].style.left = $poX3[z].style.left;
+                                    $poX3[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX3[z].style.left = `-800%`;
+                                        poXL3[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
+            
         } else if (e.target === $lane3RiA) {
             $he9.style.display = 'block';
             want = 1;
+
+            const he9At = setInterval(() => {
+                let qkftk1 = 82;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x3`, `Y3`);
+                $att.style.position = 'absolute';
+                $att.style.left = `82%`;
+                $att.style.top = `65%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX3 = [...document.querySelectorAll('.ln3')];
+                        for (let z = 0; z < $poX3.length; z++) {
+                            if (poXL3[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP3[z]--;
+
+                                if(HP3[z] < 1) {
+                                    HP3[z] = 1000000;
+                                    $poX3[z].style.left = $poX3[z].style.left;
+                                    $poX3[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX3[z].style.left = `-800%`;
+                                        poXL3[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         } else if (e.target === $lane4LeA) {
             $he10.style.display = 'block';
             want = 1;
+
+            const he10At = setInterval(() => {
+                let qkftk1 = 60;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x1`, `Y2`);
+                $att.style.position = 'absolute';
+                $att.style.left = `60%`;
+                $att.style.top = `90%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX4 = [...document.querySelectorAll('.ln4')];
+                        for (let z = 0; z < $poX4.length; z++) {
+                            if (poXL4[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP4[z]--;
+
+                                if(HP4[z] < 1) {
+                                    HP4[z] = 1000000;
+                                    $poX4[z].style.left = $poX4[z].style.left;
+                                    $poX4[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX4[z].style.left = `-800%`;
+                                        poXL4[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         } else if (e.target === $lane4MiA) {
             $he11.style.display = 'block';
             want = 1;
+
+            const he11At = setInterval(() => {
+                let qkftk1 = 71;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x2`, `Y3`);
+                $att.style.position = 'absolute';
+                $att.style.left = `71%`;
+                $att.style.top = `90%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX4 = [...document.querySelectorAll('.ln4')];
+                        for (let z = 0; z < $poX4.length; z++) {
+                            if (poXL4[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP4[z]--;
+
+                                if(HP4[z] < 1) {
+                                    HP4[z] = 1000000;
+                                    $poX4[z].style.left = $poX4[z].style.left;
+                                    $poX4[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX4[z].style.left = `-800%`;
+                                        poXL4[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         } else if (e.target === $lane4RiA) {
             $he12.style.display = 'block';
             want = 1;
+
+            const he12At = setInterval(() => {
+                let qkftk1 = 82;
+                const $att = document.createElement('div');
+                $gameZone.appendChild($att);
+                $att.classList.add('attack', `x3`, `Y3`);
+                $att.style.position = 'absolute';
+                $att.style.left = `82%`;
+                $att.style.top = `90%`;
+                $att.style.width = '3%';
+                $att.style.height = '1%';
+                $att.style.border = '2px solid white';
+                $att.style.borderRadius = '5px';
+                $att.style.background = 'aqua';
+                $att.style.display = 'block';
+            
+                const qkftk11 = setInterval(() => {
+                    $att.style.left = `${qkftk1-1}%`;
+                    qkftk1 -= 1;
+                    if (qkftk1 === 5) {
+                        clearInterval(qkftk11);
+                        $att.remove();
+                    } else {
+                        const $poX4 = [...document.querySelectorAll('.ln4')];
+                        for (let z = 0; z < $poX4.length; z++) {
+                            if (poXL4[z]+11 > qkftk1) {
+                                clearInterval(qkftk11);
+                                $att.remove();
+                                HP4[z]--;
+                                
+                                if(HP4[z] < 1) {
+                                    HP4[z] = 1000000;
+                                    $poX4[z].style.left = $poX4[z].style.left;
+                                    $poX4[z].src = `./img/enemys/HornMushy_die.gif`;
+                                    const deathAni = setTimeout(() => {
+                                        $poX4[z].style.left = `-800%`;
+                                        poXL4[z] = -10000;
+
+                                        if(death === 10) {
+                                            win();
+                                        }
+                                        clearTimeout(deathAni);
+                                    }, 1000);
+                                    death++;
+                                }
+                            }
+                        }
+                    }
+                }, 7);
+            }, 1000)
         }
     }
 
@@ -733,3 +955,5 @@ document.addEventListener('click', e => {
     }
 
 })
+clearTimeout(afda); //10초뒤에 시작하고 한번만 돌게 설정.
+}, 5000);

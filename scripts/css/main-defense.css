@@ -179,7 +179,8 @@ section.main .upper-ui .timer h3 {
 /* money */
 section.main .upper-ui .money {
     position: absolute;
-    left: 35%;
+    left: 34%;
+    top: -1%;
     font-size: 30px;
 }
 

@@ -1,15 +1,15 @@
 
 const $start = document.querySelector('.wrapper .start-button');
-let duration = 5000; /* 한 장면당 할당 시간(ms) */
+let duration = 10000; /* 한 장면당 할당 시간(ms) */
 
 $start.addEventListener('click', e => {
     const $main = document.querySelector('.main')
     /* 오디오 변경 */
     const $audioPlayer = document.querySelector('.audioPlayer');
-    $audioPlayer.setAttribute('src', './source/music/Toturial-First_Step_Master.mp3');
+    $audioPlayer.setAttribute('src', './source/music/Tutorial-First_Step_Master.mp3');
 
     const stopAudio = setTimeout(() => {
-        $audioPlayer.setAttribute('src', './source/music/Title-TitleBG.mp3');
+        $audioPlayer.setAttribute('src', './source/music/MainGame-Rest_N_Peace.mp3');
         clearTimeout(stopAudio);
     }, duration*10);
 
@@ -127,7 +127,7 @@ $start.addEventListener('click', e => {
 
         /* 메소 올라가는 텍스트 변경 */
         const $mesoUp = document.querySelector('.totalMeso');
-        $mesoUp.innerHTML = '500';
+        $mesoUp.innerHTML = '00500';
         
         clearTimeout(block2);
     }, duration*2);
@@ -194,7 +194,7 @@ $start.addEventListener('click', e => {
 
         /* 메소 초기화 */
         const $mesoUp = document.querySelector('.totalMeso');
-        $mesoUp.innerHTML = '000';
+        $mesoUp.innerHTML = '00000';
 
         clearTimeout(block3);
     }, duration*3);
@@ -409,7 +409,7 @@ $start.addEventListener('click', e => {
         
         /* 스코어 초기화 */
         const $scoreUp = document.querySelector('.scores');
-        $scoreUp.innerHTML = '000';
+        $scoreUp.innerHTML = '0000';
 
         clearTimeout(block7);
     }, duration*7);
@@ -548,7 +548,7 @@ $start.addEventListener('click', e => {
     $tutorialBox10.style.color = '#ac0000';
     $tutorialBox10.style.fontSize = '50px';
     $tutorialBox10.style.fontWeight = 'bold';
-    $tutorialBox10.innerHTML = '게임을 시작합니다!';
+    $tutorialBox10.innerHTML = '잠시 후 게임을 시작합니다!';
     $tutorialBox10.style.textAlign = 'center';
     $tutorialBox10.style.lineHeight = '200%';
     $tutorialBox10.style.padding = '70px 0';
