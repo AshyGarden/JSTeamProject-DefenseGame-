@@ -106,7 +106,7 @@ section.main {
 
     /*  다시 중앙배치 */
     transform: translate(-50%, -50%);
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 /* upper-ui(위쪽 메뉴) */
@@ -119,18 +119,28 @@ section.main .upper-ui {
 }
 
 /* stage 문구 */
-section.main .upper-ui .stage {
+/* section.main .upper-ui .stage {
     position: relative;
-    ;
     height: 50%;
     top: -15%;
     padding-left: 5%;
     margin: 0;
     font-size: 30px;
     height: 50%;
+} */
+
+section.main .upper-ui .stage {/* 임시 */
+    position: relative;
+    height: 50%;
+    top: -18%;
+    padding-left: 2%;
+    margin-right:-10%;
+    margin: 0;
+    font-size: 50px;
+    height: 50%;
 }
 
-/* 남은 적 게이지 */
+/* 남은 적 게이지
 section.main .upper-ui .enemyGauge {
     position: absolute;
     top: 10%;
@@ -140,7 +150,6 @@ section.main .upper-ui .enemyGauge {
 }
 
 section.main .upper-ui .enemyGauge .gauge {
-    /* top: 10%; */
     margin: 0 20px;
     width: 90%;
     height: 50%;
@@ -162,7 +171,7 @@ section.main .upper-ui .enemyGauge .leftover {
     background: rgba(255, 0, 128, 0.8);
     border-radius: 10px;
     border: 3px solid white;
-}
+} */
 
 /* timer */
 section.main .upper-ui .timer {
@@ -206,7 +215,7 @@ section.main .upper-ui .summon-list {
     position: relative;
     width: 45%;
     height: 100%;
-    left: 40%;
+    left: 38%;
     margin: 0 1%;
     overflow: hidden;
     box-sizing: border-box;

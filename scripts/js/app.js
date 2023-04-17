@@ -32,7 +32,7 @@ function win() {
     alert('승리!!');
 }
 
-
+const $score = document.querySelector('.scores');
 
 //몬스터 생성
 const newMon = setInterval(() => {
@@ -140,6 +140,9 @@ const tlrks1 = setInterval(() => {
 
         if(poXL1[h] > 84) {
             clearInterval(tlrks1);
+            clearInterval(tlrks2);
+            clearInterval(tlrks3);
+            clearInterval(tlrks4);
             end();
         } else if($he1.style.display === 'block') {
             for(let enemyCount=0; enemyCount<poXL1.length; enemyCount++) {
@@ -169,6 +172,9 @@ const tlrks2 = setInterval(() => {
 
         if(poXL2[h] > 84) {
             clearInterval(tlrks1);
+            clearInterval(tlrks2);
+            clearInterval(tlrks3);
+            clearInterval(tlrks4);
             end();
         }  else if($he4.style.display === 'block') {
             for(let enemyCount=0; enemyCount<poXL2.length; enemyCount++) {
@@ -198,6 +204,9 @@ const tlrks3 = setInterval(() => {
 
         if(poXL3[h] > 84) {
             clearInterval(tlrks1);
+            clearInterval(tlrks2);
+            clearInterval(tlrks3);
+            clearInterval(tlrks4);
             end();
         } else if($he7.style.display === 'block') {
             for(let enemyCount=0; enemyCount<poXL3.length; enemyCount++) {
@@ -227,6 +236,9 @@ const tlrks4 = setInterval(() => {
 
         if(poXL4[h] > 84) {
             clearInterval(tlrks1);
+            clearInterval(tlrks2);
+            clearInterval(tlrks3);
+            clearInterval(tlrks4);
             end();
         } else if($he10.style.display === 'block') {
             for(let enemyCount=0; enemyCount<poXL4.length; enemyCount++) {
@@ -956,4 +968,15 @@ document.addEventListener('click', e => {
 
 })
 clearTimeout(afda); //10초뒤에 시작하고 한번만 돌게 설정.
+
+if(death>0){
+    if($score.textContent<100)
+    $score.textContent = '00'+ death*10;  
+    else if($score.textContent<1000){
+        $score.textContent = '0'+ death*10;  
+    } else{
+        $score.textContent = death*10;  
+    }
+}
+
 }, 5000);

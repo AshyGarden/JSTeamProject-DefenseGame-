@@ -60,9 +60,9 @@ function playingTime() {
 /* Player */
 /* MESO logic*/
 function earningMeso() {
-    if(gameData.playTimeCounter < 120){ //임시방편
-        return;
-    }
+    // if(gameData.playTimeCounter < 120){ //임시방편
+    //     return;
+    // }
 
     /* 광부 숫자 */
     gameData.totalMeso += gameData.minerCount * 500;
@@ -92,17 +92,18 @@ function earningMeso() {
 //     totalScore += enemyKills * enemyKillDegree;
 // };
 
-// /////////////////////////////////////////////////////////////////////////////////////////
-// /* Enemy */
-// /* 적 죽이면 남은 적 게이지 깍아주기 */
-// const $leftoverGauge = document.querySelector('.leftover');
+/////////////////////////////////////////////////////////////////////////////////////////
+/* Enemy */
+/* 적 죽이면 남은 적 게이지 깍아주기 */
+/* const $leftoverGauge = document.querySelector('.leftover');
+function gaugeDecrease() {   
 
-// function gaugeDecrease() {   
-//     $leftoverGauge.style.width = leftover/totalEnemy;
-//     if ($leftoverGauge.style.width <= 0) {
-//         return;
-//     }
-// };
+    $leftoverGauge.style.width = leftover/totalEnemy;
+    if ($leftoverGauge.style.width <= 0) {
+        return;
+    }
+
+}; */
 
 ////////////////////////////////////////////////////////////////////////////////
 /* Main Function */

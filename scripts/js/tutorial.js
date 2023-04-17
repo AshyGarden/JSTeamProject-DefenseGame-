@@ -1,6 +1,6 @@
 
 const $start = document.querySelector('.wrapper .start-button');
-let duration = 10000; /* 한 장면당 할당 시간(ms) */
+let duration = 8000; /* 한 장면당 할당 시간(ms) */
 
 $start.addEventListener('click', e => {
     const $main = document.querySelector('.main')
@@ -43,7 +43,7 @@ $start.addEventListener('click', e => {
     $yellowBox1.style.position = 'absolute';
     $yellowBox1.style.border = '5px solid yellow';
     $yellowBox1.style.top = '0%';
-    $yellowBox1.style.left = '55%';
+    $yellowBox1.style.left = '58%';
     $yellowBox1.style.width = '20%';
     $yellowBox1.style.height = '19%';
 
